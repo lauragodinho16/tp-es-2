@@ -1,0 +1,348 @@
+@keyframes pisca {
+    0% {opacity: 0.2;}
+    50% {opacity: 1;}
+    100% {opacity: 0.2;}
+}
+
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    flex-direction: column;
+
+}
+.titulo {
+    display: flex;
+}
+
+.urna {
+    background-color: #dbd5c9;
+    padding: 30px;
+    display: flex;
+    box-shadow: 3px 3px 0px #000;
+}
+.tela {
+    width: 500px; 
+    height: 350px; /* 320px */
+    background: linear-gradient(to right, #E8E8E8, #C1C1C1);
+    border: 2px solid #555;
+    display: flex;
+    flex-direction: column;
+}
+.telafim {
+    width: 500px; 
+    height: 350px; /* 320px */
+    background: linear-gradient(to right, #E8E8E8, #C1C1C1);
+    border: 2px solid #555;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centraliza verticalmente */
+    align-items: center;
+}
+.esquerda {
+    display: flex;
+    flex-direction: column; 
+}
+label {
+    margin-top: 20px;
+    font-size: 18px;
+}
+.topo-esquerda {
+    display: flex;
+    background-color: #a1a39c;
+    margin-left: 30px;
+    height: 70px;
+}
+.logo img{
+    display: flex;
+    height: 65px;
+    filter: grayscale(100%);
+    
+}
+.Justica-eleitoral {
+    margin-bottom: 5px;
+    margin-left: 40px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 25px;
+}
+.teclado {
+    background-color: #403A3A;
+    margin-left: 30px;
+
+}
+.teclado--linha {
+    display:flex;
+    justify-content: center;
+    align-items: flex-end;
+
+}
+.teclado--botao {
+    width: 70px;
+    height: 40px;
+    background-color: #000;
+    color: #fff;
+    font-size: 25px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer; 
+    box-shadow: 3px 3px 0px #555;
+}
+.botao--branco {
+    background-color: #FFF;
+    color: #000;
+    font-size: 13px;
+}
+.botao--corrige {
+    background-color: #e45b1d;
+    color: #000;
+    font-size: 13px;
+}
+.botao--confirma {
+    background-color: #48c079;
+    color: #000;
+    font-size: 13px;
+    width: 90px;
+    height: 50px;
+}
+
+.display-1 {
+    flex: 1;
+    display: flex;
+}
+/*BORDA ESQUERDA*/
+.display-1-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}
+/*BORDA DIREITA*/
+.display-1-right {
+    width: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/*telas de votação*/
+.display-1-1{
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+.display-1-2 {
+    height: 50px;
+    display: flex;
+    align-items: center;
+   /*text-align: center; */
+    justify-content: center;
+    /*teste
+   background-color: #03ec16; teste*/
+}
+.display-1-3 {
+    height: 42px;
+    /*
+    teste
+    background-color: #ac0d07;*/
+}
+
+.display-1-4 {
+    flex: 1;
+    line-height: 30px;
+    /*teste
+    background-color: #0e378f;*/
+}
+
+/*telas das fotos dos candidatos*/
+.display-1-image {
+    border: 1px solid #000;
+    background-color: #fff;
+    text-align: center;
+    font-size: 14px;
+}
+.display-1-image img {
+    width: 100%;
+}
+.display-1-image.small {
+    width: 80%;
+    font-size: 12px;
+}
+/*retângulo de instruções*/
+.display-2 {
+    height: 50px;
+    font-size: 14px;
+    border-top: 2px solid #000;
+    padding-left: 10px;
+    /*teste
+    background-color: #582aff;*/
+}
+
+.numero {
+    display: table-cell;
+    width: 30px;
+    height: 40px;
+    border: 1px solid #000;
+    text-align: center;
+    line-height:40px;
+    font-size: 25px;
+    /*overflow: hidden;*/
+}
+
+.pisca{
+    animation-name: pisca;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+}
+
+.aviso--grande {
+    font-size: 40px;
+    font-weight: bold;
+    padding-top: 30px;
+    text-align: center;
+}
+
+.aviso--muito-grande {
+    font-size: 130px;
+    font-weight: bold;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1,
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    max-width: 500px;
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="file"] {
+    width: calc(100% - 10px);
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.sessao-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.sessao-container label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.administrador-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.administrador-form {
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    max-width: 400px;
+    width: 100%;
+}
+
+.administrador-form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.administrador-form input[type="password"],
+.administrador-form input[type="text"] {
+    width: calc(100% - 16px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.administrador-form button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.administrador-form button:hover {
+    background-color: #45a049;
+}
+
+.iniciarVotacao-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+.iniciarVotacao-button button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.iniciarVotacao2 {
+    display: none;
+}
+
+.contentContainer {
+    display: none;
+}

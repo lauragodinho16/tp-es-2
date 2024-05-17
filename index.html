@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urna Eletrônica</title>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .form-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            margin-bottom: 10px;
+        }
+
+        .form-container form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .iniciarVotacao-button {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            margin-top: 10px;
+        }
+
+        .iniciarVotacao-button button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+
+        /* Adicionando estilo para ocultar um formulário por vez */
+        #presidenteForm,
+        #deputadoForm {
+            display: none;
+        }
+
+        /* Mostrando apenas o formulário ativo */
+        #presidenteForm.active,
+        #deputadoForm.active {
+            display: block;
+        }
+
+        .contentContainer {
+            display: none;
+
+        }
+
+        .administrador-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .administrador-form {
+            display: inline-block;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .administrador-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .administrador-form input[type="password"] {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .administrador-form button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .administrador-form button:hover {
+            background-color: #45a049;
+        }
+
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .relatorio-container {
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 400px;
+            margin: 20px auto;
+            background-color: #f2e8d8;
+            /* Tom pastel de bege */
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .id-votacao {
+            margin-bottom: 0px;
+        }
+
+        .resultados {
+            margin-bottom: 0px;
+        }
+
+        .resultado {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .resultado span {
+            padding-left: 10px;
+            margin-top: 21px;
+            /* ou qualquer outro valor de padding que preferir */
+        }
+
+        .id-votacao {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .id-votacao span {
+            padding-left: 10px;
+            margin-top: 21px;
+            /* ou qualquer outro valor de padding que preferir */
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        th {
+            padding-right: 20px;
+            /* Ajuste o valor conforme necessário */
+        }
+
+        /* span {
+            margin-left: 0px;
+        } */
+    </style>
+</head>
+
+<body>
+    <div class="administrador">
+        <div class="administrador-container">
+            <h2>Área do Administrador</h2>
+            <div class="administrador-form">
+                <label for="codigoAdministrador">Código do Administrador:</label>
+                <input type="password" id="codigoAdministrador" />
+                <button onclick="verificarAdministrador()">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="iniciarVotacao" style="display: none;">
+
+        <div class="iniciarVotacao-button">
+            <button onclick="iniciarVotacao()" type="submit" id="btnIniciarVotacao">Iníciar Votação</button>
+        </div>
+    </div>
+    <div class="iniciarVotacao2" style="display: none;">
+        <div class="administrador-container">
+            <h2>Área do Administrador</h2>
+            <div class="sessao-container">
+                <label for="sessao">Identificador Urna:</label>
+                <label id="sessao"></label>
+                <label for="sessao">Quantidade votos:</label>
+                <label id="qtd"></label>
+            </div>
+
+            <div class="administrador-form">
+                <label for="tituloEleitor">Digite o título eleitoral do usuário que irá votar:</label>
+                <input type="text" id="tituloEleitor" />
+                <div id="tituloEleitorError" class="error-message" style="color: red;"></div>
+            </div>
+
+            <div class="iniciarVotacao-button">
+                <button onclick="iniciarVotacao2()" type="submit" id="btnIniciarVotacao2">Iniciar Voto do
+                    eleitor</button>
+                <button onclick="gerarRelatorioSessao()" type="submit">Finalizar votação e obter relatório</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="urna" style="display: none;">
+        <div class="tela">
+            <div class="display-1">
+                <div class="display-1-left">
+
+                    <div class="display-1-1">
+                        <span id="titulo"></span>
+                    </div>
+
+                    <div class="display-1-2">
+                        <span id="cargo"></span>
+                    </div>
+
+                    <div class="display-1-3">
+                        <div class="numero pisca"></div>
+                        <div class="numero"></div>
+                    </div>
+
+                    <div class="display-1-4"></div>
+
+                </div>
+
+                <div class="display-1-right">
+                    <div class="display-1-image">
+                    </div>
+                    <div class="display-1-image small">
+                    </div>
+                </div>
+            </div>
+
+            <div class="display-2">
+                Aperte a tecla: <br />
+                CONFIRMA para CONFIRMAR este voto<br />
+                CORRIGE para CORRIGIR este voto
+            </div>
+
+        </div>
+        <div class="telafim" style="display:none">
+            <div class="aviso--muito-grande">FIM</div>
+        </div>
+
+        <div class="teclado">
+            <div class="teclado--linha">
+                <div class="teclado--botao" onclick="clicou('1')">1</div>
+                <div class="teclado--botao" onclick="clicou('2')">2</div>
+                <div class="teclado--botao" onclick="clicou('3')">3</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao" onclick="clicou('4')">4</div>
+                <div class="teclado--botao" onclick="clicou('5')">5</div>
+                <div class="teclado--botao" onclick="clicou('6')">6</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao" onclick="clicou('7')">7</div>
+                <div class="teclado--botao" onclick="clicou('8')">8</div>
+                <div class="teclado--botao" onclick="clicou('9')">9</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao" onclick="clicou('0')">0</div>
+            </div>
+            <div class="teclado--linha">
+                <div class="teclado--botao botao--branco" onclick="branco()">BRANCO</div>
+                <div class="teclado--botao botao--corrige" onclick="corrige()">CORRIGE</div>
+                <div class="teclado--botao botao--confirma" onclick="confirma()">CONFIRMA</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="contentContainer" class="contentContainer">
+        <div class="button-container" style="margin-top: 5%;">
+            <button onclick="showPresidentForm()">Cadastrar Presidente</button>
+            <button onclick="showDeputadoForm()">Cadastrar Deputado</button>
+
+        </div>
+
+        <div class="form-container" id="presidenteForm">
+            <h2>Presidente</h2>
+            <form action="/presidente" id="formPresidente" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="nomePresidente">Nome:</label>
+                    <input type="text" id="nomePresidente" name="nomePresidente" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataNascimentoPresidente">Data de Nascimento:</label>
+                    <input type="text" id="dataNascimentoPresidente" name="dataNascimentoPresidente"
+                        placeholder="dd/mm/aaaa" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="partidoPresidente">Partido:</label>
+                    <input type="text" id="partidoPresidente" name="partidoPresidente" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="numeroPresidente">Número:</label>
+                    <input type="text" id="numeroPresidente" name="numeroPresidente" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagemPresidente">Imagem:</label>
+                    <input type="file" id="imagemPresidente" name="imagemPresidente" accept="image/*" required>
+                </div>
+
+                <h3>Vice-Presidente</h3>
+                <div class="form-group">
+                    <label for="nomeVicePresidente">Nome:</label>
+                    <input type="text" id="nomeVicePresidente" name="nomeVicePresidente" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataNascimentoVicePresidente">Data de Nascimento:</label>
+                    <input type="text" id="dataNascimentoVicePresidente" name="dataNascimentoVicePresidente"
+                        placeholder="dd/mm/aaaa" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="partidoVicePresidente">Partido:</label>
+                    <input type="text" id="partidoVicePresidente" name="partidoVicePresidente" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="imagemVicePresidente">Imagem:</label>
+                    <input type="file" id="imagemVicePresidente" name="imagemVicePresidente" accept="image/*" required>
+                </div>
+
+                <button type="submit">Salvar Presidente</button>
+            </form>
+        </div>
+
+        <div class="form-container" id="deputadoForm">
+            <h2>Deputado</h2>
+            <form action="/deputado" id="formDeputado" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="nomeDeputado">Nome:</label>
+                    <input type="text" id="nomeDeputado" name="nomeDeputado" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dataNascimentoDeputado">Data de Nascimento:</label>
+                    <input type="text" id="dataNascimentoDeputado" name="dataNascimentoDeputado"
+                        placeholder="dd/mm/aaaa" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="partidoDeputado">Partido:</label>
+                    <input type="text" id="partidoDeputado" name="partidoDeputado" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="numeroDeputado">Número:</label>
+                    <input type="text" id="numeroDeputado" name="numeroDeputado" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="imagemDeputado">Imagem:</label>
+                    <input type="file" id="imagemDeputado" name="imagemDeputado" accept="image/*" required>
+                </div>
+
+                <button type="submit">Salvar Deputado</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="relatorio-container" id="relatorio-container" style="display:none;">
+        <div class="header">
+            <h2>Relatório Eleitoral</h2>
+        </div>
+        <div class="id-votacao">
+            <label>Código verificador:</label>
+            <span id="votacaoId"></span>
+        </div>
+        <div class="resultados">
+            <div class="resultado" id="resultadoPresidentes">
+                <label>Presidente eleito:</label>
+                <span id="vencedorPresidente"></span>
+
+            </div>
+            <div class="resultado" id="resultadoDeputados">
+                <label>Deputado eleito:</label>
+                <span id="vencedorDeputado"></span>
+
+            </div>
+            <h4>---------------Presidente----------------</h4>
+
+            <div class="resultado" id="resultadoPresidentes">
+
+                <table id="tabelaPresidentes">
+                    <thead>
+                        <tr>
+                            <th>Número Candidato</th>
+                            <th>Votos</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <h4>----------------Deputado-----------------</h4>
+            <div class="resultado" id="resultadoDeputados">
+                <table id="tabelaDeputados">
+                    <thead>
+                        <tr>
+                            <th>Número Candidato</th>
+                            <th>Votos</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <h4>-----------------------------------------</h4>
+
+            <div class="resultado">
+                <label>Votos Brancos:</label>
+                <span id="votosBrancos"></span>
+            </div>
+            <div class="resultado">
+                <label>Votos Nulos:</label>
+                <span id="votosNulos"></span>
+            </div>
+            <div class="resultado">
+                <label>Quantidade de total eleitores:</label>
+                <span id="quantidadeEleitores"></span>
+            </div>
+            <div class="resultado" id="resultadoGeral">
+                <label>Data emissão:</label>
+                <span id="horaRelatorio"></span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showMessage() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const status = urlParams.get('status');
+            const message = urlParams.get('message');
+
+            if (status === 'success') {
+                const successMessage = 'Cadastro concluído com sucesso!';
+                alert(successMessage); // Exibir um alerta de sucesso
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 500);
+            } else if (status === 'error' && message) {
+                alert(message); // Exibir a mensagem de erro
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 500);
+            }
+        }
+
+        showMessage();
+
+        function showPresidentForm() {
+            document.getElementById('presidenteForm').classList.add('active');
+            document.getElementById('deputadoForm').classList.remove('active');
+            document.querySelector('.relatorio-container').style.display = 'none';
+
+        }
+
+        function showDeputadoForm() {
+            document.getElementById('presidenteForm').classList.remove('active');
+            document.getElementById('deputadoForm').classList.add('active');
+            document.querySelector('.relatorio-container').style.display = 'none';
+
+        }
+    </script>
+
+    <script>
+        let etapas;
+
+        async function fetchEtapas() {
+            const response = await fetch('/etapas');
+            etapas = await response.json();
+
+            const script = document.createElement('script');
+            script.src = 'js/script.js';
+            document.head.appendChild(script);
+        }
+
+        fetchEtapas();
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const presidenteForm = document.getElementById('formPresidente');
+
+            let errors = [];
+
+            presidenteForm.addEventListener('submit', async function (event) {
+                event.preventDefault(); // Impede o envio do formulário
+
+                try {
+                    const response = await fetch('/presidente', {
+                        method: 'POST',
+                        body: new FormData(presidenteForm),
+                    });
+
+                    const data = await response.json();
+                    if (response.ok && data.success) {
+                        alert('Presidente cadastrado com sucesso!');
+
+                        document.querySelector('.iniciarVotacao').style.display = 'block';
+                        document.querySelector('.urna').style.display = 'none';
+                        document.querySelector('.contentContainer').style.display = 'block';
+                        document.querySelector('.iniciarVotacao2').style.display = 'none';
+                        document.getElementById('deputadoForm').classList.remove('active');
+                        document.getElementById('presidenteForm').classList.remove('active');
+                        presidenteForm.reset();
+                        fetchEtapas();
+
+
+                    } else if (response.ok && data.errors && data.errors.length > 0) {
+                        errors = data.errors;
+
+                        setTimeout(function () {
+                            let errorMessage = 'Erros encontrados:\n';
+                            errors.forEach(function (error) {
+                                errorMessage += '- ' + error + '\n';
+                            });
+                            alert(errorMessage);
+                        }, 100);
+                    }
+                } catch (error) {
+                    alert('Erro ao salvar presidente: ' + error.message); // Exibe um alerta com a mensagem de erro
+                }
+            });
+        });
+
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deputadoForm = document.getElementById('formDeputado');
+
+            let deputadoErrors = [];
+
+            deputadoForm.addEventListener('submit', async function (event) {
+                event.preventDefault(); // Impede o envio do formulário
+
+                try {
+                    const response = await fetch('/deputado', {
+                        method: 'POST',
+                        body: new FormData(deputadoForm),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        alert('Deputado cadastrado com sucesso!');
+                        fetchEtapas();
+                        document.querySelector('.iniciarVotacao').style.display = 'block';
+                        document.querySelector('.urna').style.display = 'none';
+                        document.querySelector('.contentContainer').style.display = 'block';
+                        document.querySelector('.iniciarVotacao2').style.display = 'none';
+                        document.getElementById('deputadoForm').classList.remove('active');
+                        document.getElementById('presidenteForm').classList.remove('active');
+                        deputadoForm.reset();
+                    } else if (response.ok && data.errors && data.errors.length > 0) {
+                        deputadoErrors = data.errors;
+
+                        setTimeout(function () {
+                            let errorMessage = 'Erros encontrados no cadastro do deputado:\n';
+                            deputadoErrors.forEach(function (error) {
+                                errorMessage += '- ' + error + '\n';
+                            });
+                            alert(errorMessage);
+                        }, 100);
+                    }
+                } catch (error) {
+                    alert('Erro ao salvar deputado: ' + error.message);
+                }
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
