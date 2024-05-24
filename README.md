@@ -20,6 +20,7 @@ Trabalho Prático I - Engenharia de software II
    
   $ npm run dev
 
+
    O servidor estará acessível em `http://localhost:3000`.
 
 3. **Acesso à Aplicação:**
@@ -38,32 +39,6 @@ Trabalho Prático I - Engenharia de software II
 
 Após rodar a ferramenta Lizard para todos os arquivos do sistema, obtivemos o seguinte relatório de complexidade:
 
-FUNÇÕES COM MAIS BRANCHES (CCN)
-================================================
-  NLOC    CCN   token  PARAM  length  location  
-------------------------------------------------
-    45     17    347      0      51 validar@12-62@.\Candidato.js
-    22     13    140      2      24 validar@9-32@.\Voto.js
-    46     12    286      1      62 validateTituloEleitor@31-92@.\Relatorio.js 
-    45     12    304      1      59 validateTituloEleitor@467-525@.\script.js
-
-
-FUNÇÕES COM MAIS PRÂMETROS (PARAM)
-================================================
-  NLOC    CCN   token  PARAM  length  location  
-------------------------------------------------
-   34     1    320      8      57 gerarRelatorio@388-444@.\script.js
-    3      1     26      5       3 constructor@4-6@.\Deputado.js
-    3      1     26      5       4 constructor@4-7@.\Presidente.js
- 
-
-FUNÇÕES COM MAIS LINHAS DE CÓDIGO (length)
-================================================
-  NLOC    CCN   token  PARAM  length  location  
-------------------------------------------------
-    46     12    286      1      62 validateTituloEleitor@31-92@.\Relatorio.js
-    34      1    320      8      57 gerarRelatorio@388-444@.\script.js
-    43      6    260      0      55 atualizaInterface@69-123@.\script.js
-    45     17    347      0      51 validar@12-62@.\Candidato.js
+<img width="593" alt="Captura de Tela 2024-05-23 às 21 29 10" src="https://github.com/lauragodinho16/tp-es-2/assets/47701665/28e60763-e60b-48cc-a043-5e7e770864e4">
 
  ## Refatoração
