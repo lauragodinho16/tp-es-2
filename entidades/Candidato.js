@@ -7,61 +7,107 @@ class Candidato {
     this.dataNascimento = dataNascimento;
   }
 
+  validar() {
+    const validador = new ValidadorCandidato(this);
+    return validador.validar();
+  }
+}
 
+class ValidadorCandidato {
+  constructor(candidato) {
+    this.candidato = candidato;
+  }
 
   validar() {
     const errors = [];
+    errors.push(...this.validarNome());
+    errors.push(...this.validarPartido());
+    errors.push(...this.validarNumero());
+    errors.push(...this.validarUrlImagem());
+    errors.push(...this.validarDataNascimento());
+    return errors;
+  }
 
-    if (!this.nome) {
+  validarNome() {
+    const errors = [];
+    const { nome } = this.candidato;
+
+    if (!nome) {
       errors.push('O nome do candidato é obrigatório.');
-    } else if (typeof this.nome !== 'string') {
+    } else if (typeof nome !== 'string') {
       errors.push('O nome do candidato deve ser uma string.');
-    } else if (this.nome.trim() === '') {
+    } else if (nome.trim() === '') {
       errors.push('O nome do candidato não pode ser uma string vazia.');
-    }else if (this.nome.length > 250) {
+    } else if (nome.length > 250) {
       errors.push('O nome do candidato deve ter no máximo 250 caracteres.');
     } else {
-      const partesNome = this.nome.trim().split(' ');
+      const partesNome = nome.trim().split(' ');
       if (partesNome.length < 2) {
         errors.push('O nome do candidato deve conter pelo menos um sobrenome.');
       }
     }
 
+    return errors;
+  }
 
-    if (!this.partido) {
+  validarPartido() {
+    const errors = [];
+    const { partido } = this.candidato;
+
+    if (!partido) {
       errors.push('Partido não pode ser vazio');
-    } else if (typeof this.partido !== 'string') {
+    } else if (typeof partido !== 'string') {
       errors.push('Partido deve ser uma string');
-    } else if (this.partido.trim() === '') {
-      errors.push("O partido deve ser uma string não vazia e não pode conter apenas espaços em branco.");
+    } else if (partido.trim() === '') {
+      errors.push('O partido deve ser uma string não vazia e não pode conter apenas espaços em branco.');
     }
 
+    return errors;
+  }
 
-    if (!this.numero) {
+  validarNumero() {
+    const errors = [];
+    const { numero } = this.candidato;
+
+    if (!numero) {
       errors.push('O número do candidato é obrigatório.');
-    } else if (typeof this.numero !== 'string') {
+    } else if (typeof numero !== 'string') {
       errors.push('O número do candidato deve ser uma string.');
-    } else if (this.numero.trim() === '') {
+    } else if (numero.trim() === '') {
       errors.push('O número do candidato não pode ser uma string vazia.');
-    } else if (isNaN(this.numero)) {
+    } else if (isNaN(numero)) {
       errors.push('O número do candidato deve ser um valor numérico.');
     }
-    if (!this.urlImagem) {
+
+    return errors;
+  }
+
+  validarUrlImagem() {
+    const errors = [];
+    const { urlImagem } = this.candidato;
+
+    if (!urlImagem) {
       errors.push('A URL da imagem do candidato é obrigatória.');
-    } else if (typeof this.urlImagem !== 'string') {
+    } else if (typeof urlImagem !== 'string') {
       errors.push('A URL da imagem do candidato deve ser uma string.');
-    } else if (this.urlImagem.trim() === '') {
+    } else if (urlImagem.trim() === '') {
       errors.push('A URL da imagem do candidato não pode ser uma string vazia.');
     }
-    const data = new Date(this.dataNascimento);
+
+    return errors;
+  }
+
+  validarDataNascimento() {
+    const errors = [];
+    const { dataNascimento } = this.candidato;
+    const data = new Date(dataNascimento);
+
     if (isNaN(data.getTime())) {
       errors.push('Data de nascimento inválida');
     }
 
     return errors;
   }
-
-
 }
 
 export { Candidato };
