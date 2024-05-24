@@ -27,69 +27,50 @@ class Relatorio {
 
 
     }
-
     validateTituloEleitor(te) {
         const errosTituloEleitor = [];
-
+    
         // Remove todos os caracteres não numéricos e preenche com zeros à esquerda
         te = te.replace(/\D/g, '').padStart(12, '0');
-
+    
         // Verifica se o título de eleitor tem o formato correto
         if (te.length !== 12) {
             errosTituloEleitor.push("Número de título de eleitor inválido: o formato deve ser composto por 12 dígitos numéricos.");
         }
-
-        // Obtém o código do estado (UF) do título de eleitor
-        const uf = parseInt(te.substr(8, 2));
-
+    
+        const uf = parseInt(te.substr(8, 2), 10);
+    
         // Verifica se o código do estado (UF) é válido
         if (uf < 1 || uf > 28) {
             errosTituloEleitor.push("Número de título de eleitor inválido: código do estado inválido");
         }
-
-
-        let d = 0;
-        // Calcula o primeiro dígito verificador
-        for (let i = 0; i < 8; i++) {
-            d += parseInt(te[i]) * (9 - i);
-        }
-        d %= 11;
-        if (d < 2) {
-            if (uf < 3) {
-                d = 1 - d;
-            } else {
-                d = 0;
+    
+        const calcularDigitoVerificador = (inicio, fim, multiplicadores) => {
+            let soma = 0;
+            for (let i = inicio; i < fim; i++) {
+                soma += parseInt(te[i], 10) * multiplicadores[i - inicio];
             }
-        } else {
-            d = 11 - d;
-        }
-        // Verifica o primeiro dígito verificador
-        if (parseInt(te[10]) !== d) {
+            let d = soma % 11;
+            if (d < 2) {
+                d = uf < 3 ? 1 - d : 0;
+            } else {
+                d = 11 - d;
+            }
+            return d;
+        };
+    
+        const primeiroDV = calcularDigitoVerificador(0, 8, [9, 8, 7, 6, 5, 4, 3, 2]);
+        if (parseInt(te[10], 10) !== primeiroDV) {
             errosTituloEleitor.push("Número de título de eleitor inválido: o primeiro dígito verificador está incorreto.");
         }
-
-        d *= 2;
-        // Calcula o segundo dígito verificador
-        for (let i = 8; i < 10; i++) {
-            d += parseInt(te[i]) * (12 - i);
-        }
-        d %= 11;
-        if (d < 2) {
-            if (uf < 3) {
-                d = 1 - d;
-            } else {
-                d = 0;
-            }
-        } else {
-            d = 11 - d;
-        }
-        // Verifica o segundo dígito verificador
-        if (parseInt(te[11]) !== d) {
+    
+        const segundoDV = calcularDigitoVerificador(8, 10, [1, 2]);
+        if (parseInt(te[11], 10) !== segundoDV) {
             errosTituloEleitor.push("Número de título de eleitor inválido: o segundo dígito verificador está incorreto.");
         }
-
+    
         return errosTituloEleitor;
-    }
+    }    
 }
 export { Relatorio };
 
