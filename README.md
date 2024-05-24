@@ -8,6 +8,7 @@ Trabalho Prático I - Engenharia de software II
 
 ## Explicação do sistema
 1. **Descrição da aplicação:**
+   
    O sistema implementa uma urna eletrônica semelhante à utilizada nas eleições brasileiras. Existem dois tipos de usuários: Administrador e Eleitor. Ao iniciar a aplicação, o administrador deve inserir sua senha corretamente. Após isso, ele pode escolher entre cadastrar presidente, cadastrar deputado ou iniciar a votação.
 
    Para os cadastros, o sistema direciona para uma tela onde o administrador preenche nome, data de nascimento, partido e número do candidato. Se a opção for iniciar a votação, o administrador deve inserir um título de eleitor válido.
