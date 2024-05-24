@@ -38,13 +38,13 @@ Trabalho Prático I - Engenharia de software II
 5. **Explicação das tecnologias utilizadas:**
    Para o desenvolvimento desse sistema optou-se por utilizar as seguintes tecnologias:
    
-## JavaScript: 
+**JavaScript:** 
    Linguagem de programação versátil utilizada tanto no frontend quanto no backend para criar interfaces interativas dinâmicas. No frontend, ela manipula o DOM e melhora a experiência do usuário, enquanto no backend, com Node.js, permite desenvolver servidores eficientes e escaláveis.
 
-## Node.js: 
+**Node.js:** 
    Ambiente de execução  JavaScript que permite o desenvolvimento de aplicações de backend escaláveis e de alto desempenho. Utilizando um modelo de I/O não bloqueante, Node.js é ideal para construir servidores web eficientes e aplicações em tempo real.
 
-## Lizard
+**Lizard:**
    A ferramenta realiza a análise de complexidade ciclomática do programa através de métricas para a quantidade de linhas não comentadas (NLOC), quantidade de caminhos de execução independentes do código fonte (CCN), quantidade de tokens e parâmetros utilizados e comprimento das funções.
    
    Após rodar a ferramenta Lizard para todos os arquivos do sistema e filtrar os resultados com base nas colunas "CCN", "PARAM" e "length" obtivemos o seguinte relatório de complexidade:
