@@ -1,21 +1,18 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import { verificarVotoDuplicado, getEtapasFromFirestore, retornarVotosSessao, salvarVoto, adicionarDeputado, salvarRelatorio, adicionarPresidente } from './js/firestoreRepo.js';
-import { storagee } from './js/firebaseConfig.js';
-import bodyParser from 'body-parser';
-import multer from 'multer';
-import { v4 as uuidv4 } from 'uuid';
-import { ref, uploadBytes } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
-import { Presidente } from './entidades/Presidente.js';
-import { Deputado } from './entidades/Deputado.js';
-import { Candidato } from './entidades/Candidato.js';
-import { Voto } from './entidades/Voto.js';
-import { Relatorio } from './entidades/Relatorio.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const express = require('express');
+const path = require('path');
+const { fileURLToPath } = require('url');
+const { verificarVotoDuplicado, getEtapasFromFirestore, retornarVotosSessao, salvarVoto, adicionarDeputado, salvarRelatorio, adicionarPresidente } = require('./js/firestoreRepo.js');
+const { storagee } = require('./js/firebaseConfig.js');
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const { v4: uuidv4 } = require('uuid');
+const { ref, uploadBytes } = require("firebase/storage");
+const { getDownloadURL } = require("firebase/storage");
+const { Presidente } = require('./entidades/Presidente.js');
+const { Deputado } = require('./entidades/Deputado.js');
+const { Candidato } = require('./entidades/Candidato.js');
+const { Voto } = require('./entidades/Voto.js');
+const { Relatorio } = require('./entidades/Relatorio.js');
 
 let etapas;
 getEtapasFromFirestore().then((data) => {
@@ -218,8 +215,7 @@ app.post('/salvar-votos', async (req, res) => {
 
 app.post('/eleitor-voto-duplicado', async (req, res) => {
   const { titulo, idVotacao } = req.body;
-  console.log(titulo)
-  console.log(idVotacao)
+
   try {
     const jaVotou = await verificarVotoDuplicado(titulo, idVotacao);
     return res.json({ jaVotou })
@@ -246,7 +242,4 @@ async function uploadImagem(file) {
   return await getDownloadURL(storageRef);
 }
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
+module.exports = app;

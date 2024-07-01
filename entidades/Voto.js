@@ -32,4 +32,4 @@ class Voto {
     }
 }
 
-export { Voto };
+module.exports =  { Voto };

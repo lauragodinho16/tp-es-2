@@ -1,6 +1,7 @@
 
-import { getFirestore, collection, addDoc, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import { app } from "./firebaseConfig.js";
+const { getFirestore, collection, addDoc, doc, getDoc, getDocs, query, where } = require('firebase/firestore');
+const { app } = require('./firebaseConfig.js');
+
 
 const db = getFirestore(app);
 
@@ -167,4 +168,4 @@ async function verificarVotoDuplicado(titulo, idVotacao) {
 
 
 
-export { salvarVoto, adicionarDeputado, adicionarPresidente, getDeputado, getEtapasFromFirestore, salvarRelatorio, retornarVotosSessao, verificarVotoDuplicado };
+module.exports= { salvarVoto, adicionarDeputado, adicionarPresidente, getDeputado, getEtapasFromFirestore, salvarRelatorio, retornarVotosSessao, verificarVotoDuplicado };

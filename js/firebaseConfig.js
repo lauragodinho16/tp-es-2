@@ -1,7 +1,8 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { config } from 'dotenv';
+const { initializeApp } = require('firebase/app');
+const { getFirestore } = require('firebase/firestore');
+const { getStorage } = require('firebase/storage');
+const { config } = require('dotenv');
+
 
 // Carregar as variáveis de ambiente do arquivo .env
 config();
@@ -24,4 +25,4 @@ const firestore = getFirestore(app);
 // Instância do Storage
 const storagee = getStorage(app);
 
-export { firestore, storagee, app };
+module.exports = { firestore, storagee, app };

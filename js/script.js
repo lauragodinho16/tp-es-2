@@ -348,18 +348,7 @@ function calcularVencedorEleicao(votos, sessionId) {
         Votos Nulos Totais: ${votosNulos}
     `;
 
-    const dadosRelatorio = {
-        vencedorDeputado: vencedorDeputado || "Não houve votos válidos para deputado",
-        vencedorPresidente: vencedorPresidente || "Não houve votos válidos para presidente",
-        votosBrancos,
-        votosNulos,
-        idVotacao: sessao,
-        votosDeputadoOrdenados,
-        votosPresidenteOrdenados,
-        qtdEleitores: votos.length,
-    };
-
-    gerarRelatorio(dadosRelatorio);
+    gerarRelatorio(vencedorDeputado || "Não houve votos válidos para deputado", vencedorPresidente || "Não houve votos válidos para presidente", votosBrancos, votosNulos, sessao, votosDeputadoOrdenados, votosPresidenteOrdenados, votos.length);
 
     return relatorio;
 }
@@ -396,51 +385,63 @@ function criarElemento(tag, classes, texto) {
     if (texto) elemento.textContent = texto;
     return elemento;
 }
-
-function gerarRelatorio(dadosRelatorio) {
-    mostrarRelatorioContainer();
-    preencherInformacoesBasicas(dadosRelatorio);
-    preencherTabelas(dadosRelatorio.votosDeputadoOrdenados, 'tabelaDeputados');
-    preencherTabelas(dadosRelatorio.votosPresidenteOrdenados, 'tabelaPresidentes');
-    atualizarHoraRelatorio();
-}
-
-function mostrarRelatorioContainer() {
+function gerarRelatorio(
+    vencedorDeputado,
+    vencedorPresidente,
+    votosBrancos,
+    votosNulos,
+    idVotacao,
+    votosDeputadoOrdenados,
+    votosPresidenteOrdenados,
+    qtdEleitores
+) {
     document.querySelector('.relatorio-container').style.display = 'block';
-}
 
-function preencherInformacoesBasicas(dados) {
-    document.getElementById('votacaoId').textContent = dados.idVotacao;
-    document.getElementById('vencedorDeputado').textContent = dados.vencedorDeputado;
-    document.getElementById('vencedorPresidente').textContent = dados.vencedorPresidente;
-    document.getElementById('votosBrancos').textContent = dados.votosBrancos.toString();
-    document.getElementById('votosNulos').textContent = dados.votosNulos.toString();
-    document.getElementById('quantidadeEleitores').textContent = dados.qtdEleitores.toString();
-}
+    document.getElementById('votacaoId').textContent = idVotacao;
+    document.getElementById('vencedorDeputado').textContent = vencedorDeputado;
+    document.getElementById('vencedorPresidente').textContent = vencedorPresidente;
+    document.getElementById('votosBrancos').textContent = votosBrancos.toString();
+    document.getElementById('votosNulos').textContent = votosNulos.toString();
 
-function preencherTabelas(votosOrdenados, tabelaId) {
-    const tabela = document.getElementById(tabelaId).querySelector('tbody');
-    tabela.innerHTML = '';
-    votosOrdenados.forEach(voto => {
-        const row = tabela.insertRow();
+    const tabelaPresidentes = document.getElementById('tabelaPresidentes').querySelector('tbody');
+    const tabelaDeputados = document.getElementById('tabelaDeputados').querySelector('tbody');
+
+    tabelaPresidentes.innerHTML = '';
+    tabelaDeputados.innerHTML = '';
+
+
+    votosPresidenteOrdenados.forEach((voto, index) => {
+        const row = tabelaPresidentes.insertRow();
         const cellNumero = row.insertCell(0);
         const cellVotos = row.insertCell(1);
         cellNumero.textContent = voto.candidato?.toString();
         cellVotos.textContent = voto.votos?.toString();
     });
-}
 
-function atualizarHoraRelatorio() {
+    votosDeputadoOrdenados.forEach((voto, index) => {
+        const row = tabelaDeputados.insertRow();
+        const cellNumero = row.insertCell(0);
+        const cellVotos = row.insertCell(1);
+        cellNumero.textContent = voto.candidato?.toString();
+        cellVotos.textContent = voto.votos?.toString();
+    });
+
+    const totalVotos = votosDeputadoOrdenados.reduce((total, voto) => total + voto.votos, 0) +
+        votosPresidenteOrdenados.reduce((total, voto) => total + voto.votos, 0) + votosBrancos + votosNulos;
+
     const data = new Date();
     const dia = String(data.getDate()).padStart(2, '0');
     const mes = String(data.getMonth() + 1).padStart(2, '0');
     const ano = data.getFullYear();
     const hora = String(data.getHours()).padStart(2, '0');
     const minutos = String(data.getMinutes()).padStart(2, '0');
+
     const horaRelatorio = `${dia}/${mes}/${ano} ${hora}:${minutos}`;
     document.getElementById('horaRelatorio').textContent = horaRelatorio;
-}
 
+    document.getElementById('quantidadeEleitores').textContent = qtdEleitores.toString();
+
+}
 
 function reiniciarVotacao() {
     document.querySelector('.telafim').style.display = 'none';

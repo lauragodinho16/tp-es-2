@@ -1,9 +1,9 @@
-import { Candidato } from './Candidato.js';
+const { Candidato } = require('./Candidato.js');
 
 class Presidente extends Candidato {
   constructor(nome, partido, numero, urlImagem, dataNascimento) {
-      super(nome, partido, numero, urlImagem, dataNascimento);
-      
+    super(nome, partido, numero, urlImagem, dataNascimento);
+
   }
 
   validar() {
@@ -13,14 +13,22 @@ class Presidente extends Candidato {
       errors.push('Número do presidente deve ter 2 dígitos');
     }
 
-    const idadeMinima = 35; // Idade mínima para se tornar presidente
+    const dataNascimento = new Date(this.dataNascimento);
     const hoje = new Date();
-    const idade = hoje.getFullYear() - this.dataNascimento.getFullYear();
-    if (idade < idadeMinima) {
-      errors.push(`O candidato deve ter no mínimo ${idadeMinima} anos para se tornar presidente`);
+
+    const idade = hoje.getFullYear() - dataNascimento.getFullYear();
+    const mesDeDiferenca = hoje.getMonth() - dataNascimento.getMonth();
+    const diaDeDiferenca = hoje.getDate() - dataNascimento.getDate();
+
+    if (
+      idade < 35 ||
+      (idade === 35 && (mesDeDiferenca < 0 || (mesDeDiferenca === 0 && diaDeDiferenca < 0)))
+    ) {
+      errors.push('O candidato deve ter no mínimo 35 anos para se tornar presidente');
     }
 
     return errors;
+
   }
 
   adicionarVicePresidente(vicePresidente) {
@@ -35,5 +43,5 @@ class Presidente extends Candidato {
   }
 }
 
-export { Presidente };
+module.exports = { Presidente };
 
