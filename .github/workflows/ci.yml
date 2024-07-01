@@ -11,24 +11,26 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        node: [18]
+        node: [16, 18]
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
+      with:
+        node-version: '20'
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node }}
+        check-latest: true
 
     - name: Install dependencies
       run: npm install
 
     - name: Fix permissions
       if: runner.os == 'macOS' || runner.os == 'Linux'
-      run: |
-        chmod +x ./node_modules/.bin/jest
+      run: chmod +x ./node_modules/.bin/jest
 
     - name: Run tests
       run: npm test
